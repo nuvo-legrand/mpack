@@ -364,6 +364,22 @@ void mpack_read_bytes(mpack_reader_t* reader, char* p, size_t count);
  */
 const char* mpack_read_bytes_inplace(mpack_reader_t* reader, size_t count);
 
+/**
+ * Returns true if it's a good idea to read the given number of bytes
+ * in-place.
+ *
+ * If the read will be larger than some small fraction of the buffer size,
+ * this will return false to avoid shuffling too much data back and forth
+ * in the buffer.
+ *
+ * Use this if you're expecting arbitrary size data, and you want to read
+ * in-place where possible but will fall back to a normal read if the data
+ * is too large.
+ */
+static inline bool mpack_should_read_bytes_inplace(mpack_reader_t* reader, size_t count) {
+    return (reader->size == 0 || count > reader->size / 8);
+}
+
 #if MPACK_READ_TRACKING
 /**
  * Finishes reading an array.

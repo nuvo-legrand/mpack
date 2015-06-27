@@ -71,6 +71,14 @@ extern "C" {
 
 #define MPACK_UNUSED(var) ((void)(var))
 
+#ifndef MPACK_EXTERN_C
+#ifdef __cplusplus
+#define MPACK_EXTERN_C extern "C"
+#else
+#define MPACK_EXTERN_C /* nothing */
+#endif
+#endif
+
 #if MPACK_AMALGAMATED
 #define MPACK_INTERNAL_STATIC static
 #else

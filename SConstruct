@@ -12,7 +12,7 @@ for x in os.environ.keys():
 env.Append(CPPFLAGS = [
     "-Wall", "-Wextra", "-Werror",
     "-Wconversion", "-Wno-sign-conversion",
-    "-Isrc", "-Itest",
+    "-Isrc/mpack", "-Itest",
     "-DMPACK_SCONS=1",
     "-g",
     ])
@@ -24,6 +24,28 @@ if 'CC' not in env or "clang" not in env['CC']:
     env.Append(CPPFLAGS = ["-Wno-float-conversion"]) # unsupported in clang 3.4
     env.Append(CPPFLAGS = ["-fprofile-arcs", "-ftest-coverage"]) # only works properly with gcc
     env.Append(LINKFLAGS = ["-fprofile-arcs", "-ftest-coverage"])
+
+
+# Objective-C support
+
+env["OBJC"] = "TRAVIS" not in env and "CC" in env and "clang" in env["CC"]
+
+if env["OBJC"]:
+    env.Append(CPPFLAGS = [
+        "-DMPACK_TEST_OBJC=1",
+        "-fPIC",
+        "-Ibindings/objc/mpack",
+        ])
+    env.Append(OBJCFLAGS = [
+        "-fno-strict-aliasing",
+        "-fexec-charset=UTF-8",
+        "-fconstant-string-class=NSConstantString",
+        ])
+    env.Append(LINKFLAGS = [
+        "-lobjc",
+        "-lgnustep-base",
+        "-lgnustep-corebase",
+        ] + os.popen("gnustep-config --objc-libs").read().split())
 
 
 # Optional flags used in various builds

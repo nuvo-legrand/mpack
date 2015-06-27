@@ -5,6 +5,10 @@ Import('env', 'CPPFLAGS', 'LINKFLAGS')
 srcs = env.Object(env.Glob('src/mpack/*.c') + env.Glob('test/*.c'),
         CPPFLAGS=env['CPPFLAGS'] + CPPFLAGS)
 
+if env["OBJC"]:
+    srcs.extend(env.Object(env.Glob('bindings/objc/mpack/*.m') + env.Glob('test/*.m'),
+        CPPFLAGS=env['CPPFLAGS'] + CPPFLAGS + env['OBJCFLAGS']))
+
 prog = env.Program("mpack-test", srcs,
         LINKFLAGS=env['LINKFLAGS'] + LINKFLAGS)
 

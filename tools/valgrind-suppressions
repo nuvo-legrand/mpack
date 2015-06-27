@@ -1,13 +1,46 @@
+
+# Note: match-leak-kinds is currently commented out because older
+# versions of valgrind don't support it (like the one on Travis-CI.)
+
+# C++ GCC 5.1 reachable objects
+# https://bugs.kde.org/show_bug.cgi?id=345307
+# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=65434
 {
-   # https://bugs.kde.org/show_bug.cgi?id=345307
-   # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=65434
    GCC-STL-pool-reachable
    Memcheck:Leak
-   match-leak-kinds: reachable
+   #match-leak-kinds: reachable
    fun:malloc
    fun:pool
    fun:__static_initialization_and_destruction_0
    fun:_GLOBAL__sub_I_eh_alloc.cc
    fun:call_init.part.0
    fun:_dl_init
+}
+
+# Objective-C GNUstep runtime initialization leaks
+{
+   Objective-C-initialization-leaks
+   Memcheck:Leak
+   #match-leak-kinds: definite
+   ...
+   fun:call_init.part.0
+   fun:_dl_init
+   obj:/usr/lib/ld-2.21.so
+}
+{
+   Objective-C-initialization-reachable
+   Memcheck:Leak
+   #match-leak-kinds: reachable
+   fun:calloc
+   fun:objc_calloc
+   fun:objc_hash_add
+   fun:__objc_send_load_using_method_list
+   fun:__objc_send_load_using_method_list
+   fun:__objc_send_load_using_method_list
+   fun:__objc_send_load_using_method_list
+   fun:__objc_send_load_using_method_list
+   fun:__objc_send_load_using_method_list
+   fun:__objc_send_load_using_method_list
+   fun:__objc_send_load_using_method_list
+   fun:__objc_send_load_using_method_list
 }
