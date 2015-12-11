@@ -253,5 +253,27 @@
 #endif
 
 
+
+/*
+ * Bindings
+ *
+ * Note: Configurations only apply if you are actually compiling the given
+ * bindings. You can ignore any section that doesn't apply.
+ */
+
+/*
+ * C++
+ */
+
+/**
+ * Enables use of the C++ standard template library.
+ *
+ * This defines helper functions to read or write std::string for
+ * str elements and std::vector<> for bin or ext elements.
+ */
+#define MPACK_CXX_STL 1
+
+
+
 #endif
 

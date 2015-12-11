@@ -61,6 +61,9 @@
 #endif
 
 #include "mpack/mpack.h"
+#ifdef __cplusplus
+#include "mpack/mpack-cxx.h"
+#endif
 
 extern mpack_tag_t (*fn_mpack_tag_nil)(void);
 

@@ -11,8 +11,16 @@ if "c++" in CPPFLAGS:
 else:
     CPPFLAGS += ["-Wmissing-prototypes", "-Wc++-compat"]
 
-srcs = env.Object(env.Glob('src/mpack/*.c') + env.Glob('test/*.c'),
-        CPPFLAGS=env['CPPFLAGS'] + CPPFLAGS)
+if "c++" in CPPFLAGS:
+    srcs = env.Object(
+            env.Glob('src/mpack/*.c') +
+            env.Glob('bindings/cxx/*.cpp') +
+            env.Glob('test/*.c') +
+            env.Glob('test/*.cpp'),
+            CPPFLAGS=env['CPPFLAGS'] + CPPFLAGS)
+else:
+    srcs = env.Object(env.Glob('src/mpack/*.c') + env.Glob('test/*.c'),
+            CPPFLAGS=env['CPPFLAGS'] + CPPFLAGS)
 
 prog = env.Program("mpack-test", srcs,
         LINKFLAGS=env['LINKFLAGS'] + LINKFLAGS)

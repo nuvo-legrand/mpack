@@ -27,11 +27,12 @@ for x in os.environ.keys():
 env.Append(CPPFLAGS = [
     "-Wall", "-Wextra", "-Werror",
     "-Wconversion", "-Wno-sign-conversion", "-Wundef", "-Wshadow",
-    "-Isrc", "-Itest",
+    "-Isrc", "-Isrc/mpack", "-Ibindings/cxx", "-Itest",
     "-DMPACK_SCONS=1",
     "-g",
     ])
 env.Append(LINKFLAGS = [
+    "-lstdc++",
     "-g",
     ])
 # Additional warning flags are passed in SConscript based on the language (C/C++)
